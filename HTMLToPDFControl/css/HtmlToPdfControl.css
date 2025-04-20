@@ -1,18 +1,72 @@
-.pdf-content {
+/* Button Styling */
+.pdf-button {
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+  }
+  
+  .pdf-button:hover {
+    background-color: #005a9e;
+  }
+  
+  .pdf-button:active {
+    background-color: #004578;
+    transform: scale(0.98);
+  }
+  
+  /* Content Styling */
+  .pdf-content {
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     color: #333;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 8px;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
   }
   
-  .pdf-content h2 {
+  .pdf-content h1, 
+  .pdf-content h2, 
+  .pdf-content h3 {
     color: #2c3e50;
+    margin-bottom: 15px;
   }
   
   .pdf-content p {
-    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  
+  .pdf-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .pdf-content th, 
+  .pdf-content td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .pdf-content th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+  }
+  
+  .pdf-content tfoot td {
+    font-weight: bold;
+    text-align: right;
   }
   

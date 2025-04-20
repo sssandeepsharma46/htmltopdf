@@ -2,13 +2,17 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-import "./css/HTMLToPDFControl.css";
-
+interface ExtendedContext extends ComponentFramework.Context<IInputs> {
+    page: {
+        entityId: string;
+        entityTypeName: string;
+    };
+}
 export class HTMLToPDFControl implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private container: HTMLDivElement;
     private button: HTMLButtonElement;
     private recordId: string | null | undefined;
-    private buttonLabel: string | null | undefined;
+    private generatePDFButton: string | null | undefined;
     private htmlFieldSchemaName: string | null | undefined;
     private entityLogicalName: string | null | undefined;
     private notifyOutputChanged: () => void;
@@ -24,12 +28,15 @@ export class HTMLToPDFControl implements ComponentFramework.StandardControl<IInp
         this.notifyOutputChanged = notifyOutputChanged;
         this.container = container;
 
+        const pageContext = (context as ExtendedContext).page;
         // Create and configure the button
         this.button = document.createElement("button");
         this.button.className = "pdf-button";
+        this.button.innerText = "Generate PDF";
         this.button.addEventListener("click", this.downloadPdf.bind(this));
         this.container.appendChild(this.button);
-
+        this.recordId = pageContext?.entityId ;//?? context.parameters.recordId?.raw;
+        this.entityLogicalName = pageContext?.entityTypeName ;//?? context.parameters.entityLogicalName?.raw;
         // Set initial values
         this.setPropertiesFromContext(context);
     }
@@ -39,7 +46,7 @@ export class HTMLToPDFControl implements ComponentFramework.StandardControl<IInp
         this.setPropertiesFromContext(context);
 
         // Update button text
-        this.button.innerText = this.buttonLabel || "Download PDF";
+        this.button.innerText = this.generatePDFButton || "Download PDF";
     }
 
     public getOutputs(): IOutputs {
@@ -51,10 +58,11 @@ export class HTMLToPDFControl implements ComponentFramework.StandardControl<IInp
     }
 
     private setPropertiesFromContext(context: ComponentFramework.Context<IInputs>): void {
-        this.recordId = context.parameters.recordId?.raw;
-        this.buttonLabel = context.parameters.generatePDF?.raw;
+        const pageContext = (context as ExtendedContext).page;
+        this.recordId = pageContext?.entityId ;//context.parameters.recordId?.raw;
+        this.generatePDFButton = context.parameters.generatePDF?.raw;
         this.htmlFieldSchemaName = context.parameters.htmlFieldSchemaName?.raw;
-        this.entityLogicalName = context.parameters.entityLogicalName?.raw;
+        this.entityLogicalName = pageContext?.entityTypeName; //context.parameters.entityLogicalName?.raw;
     }
 
     private async downloadPdf(): Promise<void> {

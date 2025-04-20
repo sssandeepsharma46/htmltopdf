@@ -9,8 +9,8 @@
 
     <property name="generatePDF" display-name-key="generatePDF" description-key="Download PDF button" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="htmlFieldSchemaName" display-name-key="htmlFieldSchemaName" description-key="The HTML content from the rich text field" of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="entityLogicalName" display-name-key="entityLogicalName" description-key="The label for the download PDF button" of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="recordId" display-name-key="Record ID" description-key="The ID of the current record" of-type="SingleLine.Text" usage="bound" required="true" />
+    <!-- <property name="entityLogicalName" display-name-key="entityLogicalName" description-key="The label for the download PDF button" of-type="SingleLine.Text" usage="input" required="true" /> -->
+    <!-- <property name="recordId" display-name-key="Record ID" description-key="The ID of the current record" of-type="SingleLine.Text" usage="bound" required="true" /> -->
     <resources>
       <code path="index.ts" order="1"/>
       <css path="css/HTMLToPDFControl.css" order="1" />
