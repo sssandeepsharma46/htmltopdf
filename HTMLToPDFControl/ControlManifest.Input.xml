@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="htmltopdf" constructor="HTMLToPDFControl" version="0.0.1" display-name-key="HTMLToPDFControl" description-key="HTMLToPDFControl description" control-type="standard" >
+    <external-service-usage enabled="false">
+    </external-service-usage>
+    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
+    <!-- <property name="htmlText" display-name-key="htmlText" description-key="htmlText_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="htmlTextField" display-name-key="HTML_Field"  description="Field containing HTML to convert to PDF" of-type="SingleLine.TextArea" usage="bound" required="true" /> -->
+
+    <property name="generatePDF" display-name-key="generatePDF" description-key="Download PDF button" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="htmlFieldSchemaName" display-name-key="htmlFieldSchemaName" description-key="The HTML content from the rich text field" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="entityLogicalName" display-name-key="entityLogicalName" description-key="The label for the download PDF button" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="recordId" display-name-key="Record ID" description-key="The ID of the current record" of-type="SingleLine.Text" usage="bound" required="true" />
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path="css/HTMLToPDFControl.css" order="1" />
+    </resources>
+    
+    <feature-usage>
+      <uses-feature name="html-text" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+  </control>
+</manifest>
