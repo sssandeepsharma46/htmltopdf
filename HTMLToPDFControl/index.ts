@@ -35,8 +35,8 @@ export class HTMLToPDFControl implements ComponentFramework.StandardControl<IInp
         this.button.innerText = "Generate PDF";
         this.button.addEventListener("click", this.downloadPdf.bind(this));
         this.container.appendChild(this.button);
-        this.recordId = pageContext?.entityId ;//?? context.parameters.recordId?.raw;
-        this.entityLogicalName = pageContext?.entityTypeName ;//?? context.parameters.entityLogicalName?.raw;
+        this.recordId = pageContext?.entityId;//?? context.parameters.recordId?.raw;
+        this.entityLogicalName = pageContext?.entityTypeName;//?? context.parameters.entityLogicalName?.raw;
         // Set initial values
         this.setPropertiesFromContext(context);
     }
@@ -59,7 +59,7 @@ export class HTMLToPDFControl implements ComponentFramework.StandardControl<IInp
 
     private setPropertiesFromContext(context: ComponentFramework.Context<IInputs>): void {
         const pageContext = (context as ExtendedContext).page;
-        this.recordId = pageContext?.entityId ;//context.parameters.recordId?.raw;
+        this.recordId = pageContext?.entityId;//context.parameters.recordId?.raw;
         this.generatePDFButton = context.parameters.generatePDF?.raw;
         this.htmlFieldSchemaName = context.parameters.htmlFieldSchemaName?.raw;
         this.entityLogicalName = pageContext?.entityTypeName; //context.parameters.entityLogicalName?.raw;
@@ -69,7 +69,7 @@ export class HTMLToPDFControl implements ComponentFramework.StandardControl<IInp
         const recordId = this.recordId?.replace(/[{}]/g, "");
         const entityName = this.entityLogicalName;
         const fieldName = this.htmlFieldSchemaName;
-    
+
         if (!recordId || !entityName || !fieldName) {
             alert("Missing record ID, entity logical name, or HTML field schema name.");
             return;
@@ -77,14 +77,14 @@ export class HTMLToPDFControl implements ComponentFramework.StandardControl<IInp
         try {
             const result = await this.context.webAPI.retrieveRecord(entityName, recordId, `?$select=${fieldName}`);
             let htmlContent: string = result[fieldName];
-    
+
             if (!htmlContent || typeof htmlContent !== "string") {
                 alert("No valid HTML content found in the specified field.");
                 return;
             }
-    
+
             htmlContent = htmlContent.trim();
-    
+
             // Create a temp container for rendering
             const tempDiv = document.createElement("div");
             tempDiv.innerHTML = htmlContent;
@@ -94,33 +94,33 @@ export class HTMLToPDFControl implements ComponentFramework.StandardControl<IInp
             tempDiv.style.width = "800px"; // suitable width for A4
             tempDiv.style.backgroundColor = "white"; // ensure white bg
             document.body.appendChild(tempDiv);
-    
+
             // Wait to ensure styles apply
             await new Promise(resolve => setTimeout(resolve, 300));
-    
+
             const canvas = await html2canvas(tempDiv, {
                 scale: 2,
                 useCORS: true,
                 allowTaint: true,
                 logging: true,
             });
-    
+
             const imgData = canvas.toDataURL("image/png");
             const pdf = new jsPDF("p", "mm", "a4");
             const pageWidth = pdf.internal.pageSize.getWidth();
             const pageHeight = pdf.internal.pageSize.getHeight();
-    
+
             const imgWidth = 210;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    
+
             // Add image to PDF
             pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight > pageHeight ? pageHeight : imgHeight);
             pdf.save(`record_${recordId}.pdf`);
-    
+
             document.body.removeChild(tempDiv);
         } catch (error) {
             console.error("Error generating PDF:", error);
             alert("An error occurred while generating the PDF.");
         }
-    }    
+    }
 }
